@@ -2,9 +2,8 @@ pipeline {
     agent any
     environment {
         FLUTTER_HOME = "${env.WORKSPACE}/flutter"
-        PATH = "${env.FLUTTER_HOME}/bin:${env.PATH}"
         ANDROID_HOME = '/opt/android-sdk' // change if your sdk path differs
-        PATH = "${env.ANDROID_HOME}/tools:${env.ANDROID_HOME}/platform-tools:${env.PATH}"
+        PATH = "${env.FLUTTER_HOME}/bin:${env.ANDROID_HOME}/tools:${env.ANDROID_HOME}/platform-tools:${env.PATH}"
     }
     stages {
         stage('Install Flutter SDK') {
@@ -22,13 +21,11 @@ pipeline {
                 sh 'flutter pub get'
             }
         }
-
         stage('Print PATH') {
-        steps {
-            sh 'echo $PATH'
+            steps {
+                sh 'echo $PATH'
             }
         }
-
         stage('Code Analysis') {
             steps {
                 sh 'flutter analyze'
