@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "203883213959",
+    "project_id": "flutter-jenkins-fc16f",
+    "storage_bucket": "flutter-jenkins-fc16f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203883213959:android:4591458013c152411b3422",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwf7yLKg2yNUmbzxTILWNDrVfE1XM6lMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
