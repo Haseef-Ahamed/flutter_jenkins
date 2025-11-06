@@ -22,6 +22,13 @@ pipeline {
                 sh 'flutter pub get'
             }
         }
+
+        stage('Print PATH') {
+        steps {
+            sh 'echo $PATH'
+            }
+        }
+
         stage('Code Analysis') {
             steps {
                 sh 'flutter analyze'
