@@ -19,5 +19,5 @@ ENV PATH="/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/platform-to
 # Accept Android licenses and install core components
 RUN yes | sdkmanager --licenses && \
     sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
-RUN chown -R jenkins:jenkins /opt/flutter
+RUN chown -R jenkins:jenkins /opt/android-sdk /opt/flutter
 USER jenkins
