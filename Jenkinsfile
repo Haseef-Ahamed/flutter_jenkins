@@ -1,28 +1,19 @@
 pipeline {
     agent any
     environment {
-        FLUTTER_HOME = "${env.WORKSPACE}/flutter"
-        ANDROID_HOME = '/opt/android-sdk' // change if your sdk path differs
-        PATH = "${env.FLUTTER_HOME}/bin:${env.ANDROID_HOME}/tools:${env.ANDROID_HOME}/platform-tools:${env.PATH}"
+        // Set these according to your actual install paths in the Docker image
+        FLUTTER_HOME = "/opt/flutter"       // e.g. '/opt/flutter' if that's where you installed it
+        ANDROID_HOME = "/opt/android-sdk"   // e.g. '/opt/android-sdk' if that's your SDK root
+        PATH = "${FLUTTER_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
     }
     stages {
-        stage('Install wget & unzip') {
-        steps {
-            sh 'apt-get update && apt-get install -y wget unzip'
-            }
-        }
-        stage('Install Android SDK') {
-        steps {
-            sh '''
-            if [ ! -d "$ANDROID_HOME" ]; then
-            mkdir -p "$ANDROID_HOME"
-            cd "$ANDROID_HOME"
-            wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -O cmdline-tools.zip
-            unzip cmdline-tools.zip
-            mkdir -p cmdline-tools
-            mv cmdline-tools cmdline-tools/latest
-            fi
-            '''
+        stage('Print Tool Versions') {
+            steps {
+                sh '''
+                echo "Flutter version:"; flutter --version || echo "NO FLUTTER FOUND"
+                echo "Java version:"; java -version || echo "NO JAVA FOUND"
+                echo "Android SDK location:"; ls -l $ANDROID_HOME || echo "NO ANDROID SDK FOUND"
+                '''
             }
         }
         stage('Install Dependencies') {
@@ -54,13 +45,13 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/app-release.apk', fingerprint: true
-            emailext(subject: "CI Success: APK built (#${env.BUILD_NUMBER})", 
-                     body: "Build and tests passed. The APK is archived.", 
+            emailext(subject: "CI Success: APK built (#${env.BUILD_NUMBER})",
+                     body: "Build and tests passed. The APK is archived.",
                      to: 'mshaseefat@gmail.com')
         }
         failure {
-            emailext(subject: "CI Failed (#${env.BUILD_NUMBER})", 
-                     body: "Build or test failed. See Jenkins logs for details.", 
+            emailext(subject: "CI Failed (#${env.BUILD_NUMBER})",
+                     body: "Build or test failed. See Jenkins logs for details.",
                      to: 'mshaseefat@gmail.com')
         }
     }
