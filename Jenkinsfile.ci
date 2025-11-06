@@ -11,10 +11,10 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: 'build/app/outputs/flutter-apk/app-release.apk', fingerprint: true
-            emailext(subject: "CI Success: Build #${env.BUILD_NUMBER}", body: "All checks passed.", to: 'YOUR_EMAIL')
+            emailext(subject: "CI Success: Build #${env.BUILD_NUMBER}", body: "All checks passed.", to: 'mshaseefat@gmail.com')
         }
         failure {
-            emailext(subject: "CI Failed", body: "Build failed. See Jenkins logs.", to: 'YOUR_EMAIL')
+            emailext(subject: "CI Failed", body: "Build failed. See Jenkins logs.", to: 'mshaseefat@gmail.com')
         }
     }
 }
