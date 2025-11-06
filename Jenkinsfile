@@ -1,29 +1,27 @@
 pipeline {
     agent any
     environment {
-        // Set these according to your actual install paths in the Docker image
-        FLUTTER_HOME = "/opt/flutter"       // e.g. '/opt/flutter' if that's where you installed it
-        ANDROID_HOME = "/opt/android-sdk"   // e.g. '/opt/android-sdk' if that's your SDK root
+        FLUTTER_HOME = "/opt/flutter"
+        ANDROID_HOME = "/opt/android-sdk"
         PATH = "${FLUTTER_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${PATH}"
     }
     stages {
-        stage('Print Tool Versions') {
+        stage('Show Tool Versions & Paths') {
             steps {
                 sh '''
-                echo "Flutter version:"; flutter --version || echo "NO FLUTTER FOUND"
-                echo "Java version:"; java -version || echo "NO JAVA FOUND"
-                echo "Android SDK location:"; ls -l $ANDROID_HOME || echo "NO ANDROID SDK FOUND"
+                echo "Flutter version:"
+                flutter --version
+                echo "Java version:"
+                java -version
+                echo "Android SDK location:"
+                ls -l $ANDROID_HOME
+                echo "PATH: $PATH"
                 '''
             }
         }
         stage('Install Dependencies') {
             steps {
                 sh 'flutter pub get'
-            }
-        }
-        stage('Print PATH') {
-            steps {
-                sh 'echo $PATH'
             }
         }
         stage('Code Analysis') {
